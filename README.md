@@ -1,39 +1,110 @@
-HW2 - Langganan Parkir
+Sistem Langganan Parkir
 
-Program ini dibuat untuk menghitung biaya parkir berdasarkan jenis pelanggan, lama parkir, dan kondisi tiket.
+1. Problem Statement
 
-Yang digunakan
+Sistem parkir digunakan untuk menghitung biaya yang perlu dibayar oleh pelanggan berdasarkan jenis pelanggan, lama kendaraan berada di tempat parkir, dan kondisi tiket.
 
-- Enum untuk jenis pelanggan
-- Enum untuk kondisi tiket
-- Function untuk menghitung tarif parkir
-- Function untuk menghitung total biaya
-- Denda jika tiket parkir hilang
+Pelanggan yang terdaftar sebagai pelanggan langganan tidak dikenakan biaya parkir. Sedangkan pelanggan biasa akan membayar sesuai dengan lama parkir menggunakan tarif yang sudah ditentukan. Apabila tiket parkir hilang, pelanggan akan mendapatkan tambahan biaya denda.
 
-Aturan Parkir
+2. Actor
 
-Untuk pelanggan biasa:
+Aktor| Peran
+Petugas Parkir| Memasukkan data pelanggan, kondisi tiket, dan lama parkir serta melihat jumlah pembayaran.
+Pelanggan| Menggunakan layanan parkir dan melakukan pembayaran sesuai biaya yang diperoleh dari sistem.
 
-- 1 jam = Rp3.000
-- 2 jam = Rp4.500
-- Jam berikutnya = tambah Rp2.500 per jam
+3. Input dan Output
 
-Untuk pelanggan langganan, biaya parkirnya Rp0.
+Jenis| Data
+Input| Jenis pelanggan (langganan / biasa)
+Input| Kondisi tiket (tersedia / hilang)
+Input| Lama parkir dalam jam
+Output| Jumlah biaya parkir yang harus dibayar
 
-Kalau tiket hilang, akan ditambah denda Rp25.000.
+4. Functional Requirement
 
-Contoh Output
+Kode| Functional Requirement
+FR-01| Sistem dapat menerima jenis pelanggan dan kondisi tiket.
+FR-02| Sistem dapat menerima lama kendaraan parkir.
+FR-03| Sistem dapat memberikan biaya Rp0 untuk pelanggan langganan.
+FR-04| Sistem dapat menghitung tarif parkir pelanggan biasa berdasarkan lama parkir.
+FR-05| Sistem dapat memberikan denda apabila tiket dinyatakan hilang.
+FR-06| Sistem dapat menampilkan total biaya parkir.
 
-Langganan, tiket tersedia, 3 jam : Rp0
-Langganan, tiket hilang, 4 jam   : Rp25000
-Biasa, tiket tersedia, 2 jam     : Rp4500
-Biasa, tiket tersedia, 5 jam     : Rp12000
-Biasa, tiket hilang, 3 jam       : Rp32500
+5. Business Rules
 
-Cara Menjalankan
+Kode| Rules
+BR-01| Pelanggan langganan tidak dikenakan biaya parkir.
+BR-02| Pelanggan biasa membayar Rp3.000 untuk 1 jam pertama.
+BR-03| Jika parkir selama 2 jam, total tarif menjadi Rp4.500.
+BR-04| Setelah 2 jam, setiap tambahan jam dikenakan Rp2.500.
+BR-05| Tiket yang hilang dikenakan denda sebesar Rp25.000.
+BR-06| Denda tiket hilang tetap berlaku untuk pelanggan langganan maupun pelanggan biasa.
 
-Program dibuat menggunakan bahasa Dart.
+6. Decomposition
 
-Jalankan file program melalui DartPad atau VS Code yang sudah terpasang Dart.
+Masalah dibagi menjadi beberapa bagian supaya lebih mudah dikerjakan:
 
-Program akan menampilkan hasil perhitungan biaya parkir di terminal.
+1. Menentukan jenis pelanggan.
+2. Memasukkan kondisi tiket dan lama parkir.
+3. Mengecek jenis pelanggan.
+   - Jika langganan, biaya parkir = Rp0.
+   - Jika biasa, biaya dihitung berdasarkan lama parkir.
+4. Mengecek kondisi tiket.
+   - Jika tiket tersedia, tidak ada tambahan biaya.
+   - Jika tiket hilang, tambahkan denda Rp25.000.
+5. Menampilkan total biaya parkir.
+
+7. Pattern Recognition
+
+1. Jenis pelanggan mempunyai dua kondisi, yaitu langganan dan biasa.
+2. Kondisi tiket juga dibagi menjadi tersedia dan hilang.
+3. Tarif pelanggan biasa berubah sesuai dengan lama parkir.
+4. Total pembayaran didapat dari biaya parkir ditambah denda jika tiket hilang.
+
+8. Flowchart
+
+                    ┌──────────────┐
+                    │    MULAI     │
+                    └──────┬───────┘
+                           ↓
+              ┌────────────────────────┐
+              │ Masukkan jenis pelanggan│
+              │ tiket dan lama parkir   │
+              └───────────┬────────────┘
+                          ↓
+                 ┌─────────────────┐
+                 │ Pelanggan       │
+                 │ langganan?      │
+                 └───────┬─────────┘
+                    Ya ↓     ↓ Tidak
+                 ┌───────┐  ┌─────────────────┐
+                 │ biaya │  │ Hitung tarif    │
+                 │  = 0  │  │ berdasarkan jam │
+                 └───┬───┘  └────────┬────────┘
+                     │                ↓
+                     │       ┌────────────────┐
+                     │       │ Lama parkir    │
+                     │       │ menentukan     │
+                     │       │ tarif           │
+                     │       └───────┬────────┘
+                     │               ↓
+                     └───────────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Tiket hilang?   │
+                    └────────┬────────┘
+                       Ya ↓       ↓ Tidak
+                  ┌─────────────┐    │
+                  │ Tambahkan   │    │
+                  │ Rp25.000    │    │
+                  └──────┬──────┘    │
+                         └─────┬──────┘
+                               ↓
+                    ┌─────────────────┐
+                    │ Tampilkan total │
+                    │ biaya parkir    │
+                    └────────┬────────┘
+                             ↓
+                    ┌──────────────┐
+                    │    SELESAI   │
+                    └──────────────┘
